@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Durations &#8212; Muse 0.01-alpha documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Scales" href="scales.html" />
+    <link rel="prev" title="Welcome to muse’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="durations">
+<h1>Durations<a class="headerlink" href="#durations" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-muse.durations"></span><dl class="class">
+<dt id="muse.durations.Duration">
+<em class="property">class </em><code class="sig-prename descclassname">muse.durations.</code><code class="sig-name descname">Duration</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">beats=[]</em>, <em class="sig-param">tuplet='1/1/1'</em>, <em class="sig-param">beat_array=None</em>, <em class="sig-param">resolution=512</em>, <em class="sig-param">use_durations=False</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.Duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class representing musical durations.</p>
+<p>Duration values are stored in self._beats as a BeatArray
+of two dimensional tuplets, where the first position is a
+beat value represented by an integer which is a power of 2,
+and the second position is a ‘/’ delimited string
+representing a tuplet ratio.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">BeatArray</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;1/1/1&#39;</span><span class="p">))</span>
+<span class="go">Duration(beats=[4], resolution=512)</span>
+</pre></div>
+</div>
+<p>The properties self.beats, self.duration, and self.beat_durations all
+render different views of the BeatArray, and setter methods for
+converting values into musical durations
+—</p>
+<p><strong>Ex. 1: Setting Duration.beats</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Duration</span><span class="p">(</span><span class="n">beats</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span>
+<span class="go">[8, 8]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">duration</span>
+<span class="go">128</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">beats</span>
+<span class="go">[8, 8]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">beat_durations</span>
+<span class="go">[64, 64]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">beats</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">duration</span>
+<span class="go">384</span>
+</pre></div>
+</div>
+<p><strong>Ex. 2: Setting Duration.duration</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Duration</span><span class="p">(</span><span class="n">beats</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1024</span> <span class="c1"># two whole notes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">beats</span>
+<span class="go">[1, 1]</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="muse.durations.Duration.beat_durations">
+<em class="property">property </em><code class="sig-name descname">beat_durations</code><a class="headerlink" href="#muse.durations.Duration.beat_durations" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property is an interface for getting/setting beats
+as beat durations, calculated as 1/beat * resolution.</p>
+<p>Data is stored as beats and converted back to durations
+on lookup.</p>
+<p>Data is assigned by passing off to the setter for Duration.beats.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.durations.Duration.duration">
+<em class="property">property </em><code class="sig-name descname">duration</code><a class="headerlink" href="#muse.durations.Duration.duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render and return absolute value of self.beats,
+calculated as sum self.beat_durations.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.durations.Duration.operand_type_handler">
+<code class="sig-name descname">operand_type_handler</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.Duration.operand_type_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a value, returns a Duration object.
+Used to prepare operands for processing in
+operand overload dunder methods.</p>
+<p>Duration objects are passed through untouched.</p>
+<p>Delegates to the setter for Duration.beats to
+handle ints, floats, tuples, and lists in the
+initialization of new Duration objects.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="muse.durations.BeatArray">
+<em class="property">class </em><code class="sig-prename descclassname">muse.durations.</code><code class="sig-name descname">BeatArray</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">beats=[]</em>, <em class="sig-param">duration=None</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.BeatArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>A container that holds BeatTuples for every Duration object.</p>
+<p>BeatTuples are stored in self.data.</p>
+<p>self.beats[0] will return a Duration object instantiated from the data in self.data.</p>
+<dl class="method">
+<dt id="muse.durations.BeatArray.clean_multiple">
+<code class="sig-name descname">clean_multiple</code><span class="sig-paren">(</span><em class="sig-param">beats</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.BeatArray.clean_multiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>x = [(4, ‘1/1/1’)]
+x = [4]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.durations.BeatArray.clean_single">
+<code class="sig-name descname">clean_single</code><span class="sig-paren">(</span><em class="sig-param">beat</em>, <em class="sig-param">output=&lt;class 'muse.durations.durations.BeatTuple'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.BeatArray.clean_single" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function allows the append() and __setitem__() methods
+to handle input in the form of either a tuple:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">BeatArray</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;1/1/1&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Or int, or float:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">BeatArray</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="muse.durations.Tuplet">
+<em class="property">class </em><code class="sig-prename descclassname">muse.durations.</code><code class="sig-name descname">Tuplet</code><span class="sig-paren">(</span><em class="sig-param">ratio=None</em>, <em class="sig-param">subdivision=None</em>, <em class="sig-param">numerator=None</em>, <em class="sig-param">against=None</em>, <em class="sig-param">resolution=512</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.Tuplet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tuplet instances are assigned to Duration().tuplet,
+and provide an interface for modifying the duration’s
+value by distorting its values across the specified
+tuplet ratio.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="muse.durations.beat_dur">
+<code class="sig-prename descclassname">muse.durations.</code><code class="sig-name descname">beat_dur</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">resolution</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.beat_dur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function that converts beats to durations
+and durations to beats.</p>
+<p>Beats and durations are inversions of each other,
+so the same function can transform either type of value
+in either direction.</p>
+<dl class="simple">
+<dt>Parameters</dt><dd></dd>
+<dt>value<span class="classifier">int or float</span></dt><dd><p>Represents the either a subdivision of the beat or duration in ticks.</p>
+</dd>
+<dt>resolution<span class="classifier">int</span></dt><dd><p>Indicates the number of ticks per whole note.</p>
+</dd>
+<dt>Returns</dt><dd></dd>
+<dt>float</dt><dd><p>Value represents either beats or duration, depending on which was passed to it.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Muse</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scales.html">Scales</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to muse’s documentation!</a></li>
+      <li>Next: <a href="scales.html" title="next chapter">Scales</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Brandon Rowell.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/durations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

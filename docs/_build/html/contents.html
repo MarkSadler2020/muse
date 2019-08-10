@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Welcome to muse’s documentation! &#8212; Muse 0.01-alpha documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-muse.durations.durations">
+<span id="welcome-to-muse-s-documentation"></span><h1>Welcome to muse’s documentation!<a class="headerlink" href="#module-muse.durations.durations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="durations-submodule">
+<h2>Durations Submodule<a class="headerlink" href="#durations-submodule" title="Permalink to this headline">¶</a></h2>
+<p>A submodule for handling musical durations within Muse.</p>
+<dl class="class">
+<dt id="muse.durations.durations.BeatArray">
+<em class="property">class </em><code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">BeatArray</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">beats=[]</em>, <em class="sig-param">duration=None</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.BeatArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>A container that holds BeatTuples for every Duration object.</p>
+<p>BeatTuples are stored in self.data.</p>
+<p>self.beats[0] will return a Duration object instantiated from the data in self.data.</p>
+<dl class="method">
+<dt id="muse.durations.durations.BeatArray.clean_multiple">
+<code class="sig-name descname">clean_multiple</code><span class="sig-paren">(</span><em class="sig-param">beats</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.BeatArray.clean_multiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>x = [(4, ‘1/1/1’)]
+x = [4]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.durations.durations.BeatArray.clean_single">
+<code class="sig-name descname">clean_single</code><span class="sig-paren">(</span><em class="sig-param">beat</em>, <em class="sig-param">output=&lt;class 'muse.durations.durations.BeatTuple'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.BeatArray.clean_single" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function allows the append() and __setitem__() methods
+to handle input in the form of either a tuple:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">BeatArray</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;1/1/1&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Or int, or float:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">BeatArray</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="muse.durations.durations.BeatTuple">
+<em class="property">class </em><code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">BeatTuple</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">tuplet=None</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.BeatTuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>A namedtuple which holds the raw beat data for each part of the duration object.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="muse.durations.durations.Duration">
+<em class="property">class </em><code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">Duration</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">beats=[]</em>, <em class="sig-param">tuplet='1/1/1'</em>, <em class="sig-param">beat_array=None</em>, <em class="sig-param">resolution=512</em>, <em class="sig-param">use_durations=False</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.Duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class representing musical durations.</p>
+<p>Duration values are stored in self._beats as a BeatArray
+of two dimensional tuplets, where the first position is a
+beat value represented by an integer which is a power of 2,
+and the second position is a ‘/’ delimited string
+representing a tuplet ratio.</p>
+<p>Example:
+&gt;&gt;&gt; BeatArray((4, ‘1/1/1’))</p>
+<p>The properties self.beats, self.duration, and self.beat_durations all
+render different views of the BeatArray, and setter methods for
+converting values into musical durations</p>
+<p>—</p>
+<p>Ex. 1: Setting Duration.beats
+&gt;&gt;&gt; d = Duration(beats=[8, 8], resolution=512)
+&gt;&gt;&gt; d
+[8, 8]
+&gt;&gt;&gt; d.duration
+128
+&gt;&gt;&gt; d.beats
+[8, 8]
+&gt;&gt;&gt; d.beat_durations
+[64, 64]
+&gt;&gt;&gt; d.beats = [4, 4, 4]
+&gt;&gt;&gt; d.duration
+384</p>
+<p>Ex. 2: Setting Duration.duration
+&gt;&gt;&gt; d = Duration(beats=0, resolution=512)
+&gt;&gt;&gt; d.duration = 1024 # two whole notes
+&gt;&gt;&gt; d.beats
+[1, 1]</p>
+<dl class="method">
+<dt id="muse.durations.durations.Duration.beat_durations">
+<em class="property">property </em><code class="sig-name descname">beat_durations</code><a class="headerlink" href="#muse.durations.durations.Duration.beat_durations" title="Permalink to this definition">¶</a></dt>
+<dd><p>This property is an interface for getting/setting beats
+as beat durations, calculated as 1/beat * resolution.</p>
+<p>Data is stored as beats and converted back to durations
+on lookup.</p>
+<p>Data is assigned by passing off to the setter for Duration.beats.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.durations.durations.Duration.duration">
+<em class="property">property </em><code class="sig-name descname">duration</code><a class="headerlink" href="#muse.durations.durations.Duration.duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render and return absolute value of self.beats,
+calculated as sum self.beat_durations.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.durations.durations.Duration.operand_type_handler">
+<code class="sig-name descname">operand_type_handler</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.Duration.operand_type_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a value, returns a Duration object.
+Used to prepare operands for processing in
+operand overload dunder methods.</p>
+<p>Duration objects are passed through untouched.</p>
+<p>Delegates to the setter for Duration.beats to
+handle ints, floats, tuples, and lists in the
+initialization of new Duration objects.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="muse.durations.durations.GroupingTypeError">
+<em class="property">exception </em><code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">GroupingTypeError</code><a class="headerlink" href="#muse.durations.durations.GroupingTypeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised whenever Duration.group() is given an invalid type
+for grouping.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="muse.durations.durations.GroupingValueError">
+<em class="property">exception </em><code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">GroupingValueError</code><a class="headerlink" href="#muse.durations.durations.GroupingValueError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised whenever Duration.group() is given an invalid value
+for grouping.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="muse.durations.durations.Tuplet">
+<em class="property">class </em><code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">Tuplet</code><span class="sig-paren">(</span><em class="sig-param">ratio=None</em>, <em class="sig-param">subdivision=None</em>, <em class="sig-param">numerator=None</em>, <em class="sig-param">against=None</em>, <em class="sig-param">resolution=512</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.Tuplet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tuplet instances are assigned to Duration().tuplet,
+and provide an interface for modifying the duration’s
+value by distorting its values across the specified
+tuplet ratio.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="muse.durations.durations.beat_dur">
+<code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">beat_dur</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">resolution</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.beat_dur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function that converts beats to durations
+and durations to beats.</p>
+<p>Beats and durations are inversions of each other,
+so the same function can transform either type of value
+in either direction.</p>
+<dl class="simple">
+<dt>Parameters</dt><dd></dd>
+<dt>value<span class="classifier">int or float</span></dt><dd><p>Represents the either a subdivision of the beat or duration in ticks.</p>
+</dd>
+<dt>resolution<span class="classifier">int</span></dt><dd><p>Indicates the number of ticks per whole note.</p>
+</dd>
+<dt>Returns</dt><dd></dd>
+<dt>float</dt><dd><p>Value represents either beats or duration, depending on which was passed to it.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="muse.durations.durations.group">
+<code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">group</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">resolution</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Break down durations into valid beat subdivisions,
+largest to smallest, with the largest being
+a whole note (1 * resolution).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="muse.durations.durations.is_grouping">
+<code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">is_grouping</code><span class="sig-paren">(</span><em class="sig-param">beat_value</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.is_grouping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if the beat value is a valid grouping of subdivisions.
+Must be either 0, 1, or an integer which is both positive and even.
+Returns either True or False.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="muse.durations.durations.is_subdivision">
+<code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">is_subdivision</code><span class="sig-paren">(</span><em class="sig-param">beat</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.is_subdivision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if <cite>beat</cite> is a valid rhythmic subdivision.</p>
+<dl class="simple">
+<dt>Parameters</dt><dd></dd>
+<dt>beat<span class="classifier">int</span></dt><dd><p>A <cite>float</cite> or <cite>int</cite> value to be checked for validity as a beat value.</p>
+</dd>
+<dt>Returns</dt><dd></dd>
+<dt>bool</dt><dd><p>Returns <cite>True</cite> if value is positive power of 2. Returns <cite>False</cite> if</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="muse.durations.durations.match_resolution">
+<code class="sig-prename descclassname">muse.durations.durations.</code><code class="sig-name descname">match_resolution</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.durations.durations.match_resolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes an arbitrary number of Duration objects as arguments,
+returns a list of Duration arguments with the resolution matched
+to the highest resolution of the original durations provided.</p>
+</dd></dl>
+
+</div>
+<span class="target" id="module-muse.scales.scales"></span><dl class="class">
+<dt id="muse.scales.scales.ChromaticScale">
+<em class="property">class </em><code class="sig-prename descclassname">muse.scales.scales.</code><code class="sig-name descname">ChromaticScale</code><span class="sig-paren">(</span><em class="sig-param">root='C4'</em>, <em class="sig-param">tuning=&lt;muse.scales.tunings.EqualTuning object&gt;</em>, <em class="sig-param">start_idx=0</em>, <em class="sig-param">stop_idx=49</em>, <em class="sig-param">step=1</em>, <em class="sig-param">octave_increment_letter='C'</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.ChromaticScale" title="Permalink to this definition">¶</a></dt>
+<dd><p>An iterator which generates a chromatic scale.</p>
+<p>ChromaticScale objects are passed to DiatonicScale instances
+as arguments.</p>
+<dl class="method">
+<dt id="muse.scales.scales.ChromaticScale.get_chromatic_index">
+<code class="sig-name descname">get_chromatic_index</code><span class="sig-paren">(</span><em class="sig-param">note</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.ChromaticScale.get_chromatic_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a note name, return the chromatic index of a zero-based
+array representing one octave.</p>
+<p>Used for calculating enharmonic equivalents.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.scales.scales.ChromaticScale.get_chromatic_name">
+<code class="sig-name descname">get_chromatic_name</code><span class="sig-paren">(</span><em class="sig-param">letter</em>, <em class="sig-param">target_idx</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.ChromaticScale.get_chromatic_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a letter name and a chromatic index,
+return the appropriate spelling of that note name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.scales.scales.ChromaticScale.get_letter_index">
+<code class="sig-name descname">get_letter_index</code><span class="sig-paren">(</span><em class="sig-param">letter</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.ChromaticScale.get_letter_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a letter, return the index in the scale.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.scales.scales.ChromaticScale.step">
+<code class="sig-name descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.ChromaticScale.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment through chromatic note names by step.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="muse.scales.scales.ChromaticScale.variants">
+<code class="sig-name descname">variants</code><span class="sig-paren">(</span><em class="sig-param">note</em>, <em class="sig-param">direction</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.ChromaticScale.variants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a letter name, return a list of all remaining modified
+chromatic variants of a given letter name in the direction of iteration.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="muse.scales.scales.DiatonicScale">
+<em class="property">class </em><code class="sig-prename descclassname">muse.scales.scales.</code><code class="sig-name descname">DiatonicScale</code><span class="sig-paren">(</span><em class="sig-param">pattern_name='major'</em>, <em class="sig-param">chromatic_scale=&lt;muse.scales.scales.ChromaticScale object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.DiatonicScale" title="Permalink to this definition">¶</a></dt>
+<dd><p>A diatonic scale.</p>
+<dl class="method">
+<dt id="muse.scales.scales.DiatonicScale.step">
+<code class="sig-name descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.DiatonicScale.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment through diatonic note names by step.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="muse.scales.scales.ScaleABC">
+<em class="property">class </em><code class="sig-prename descclassname">muse.scales.scales.</code><code class="sig-name descname">ScaleABC</code><span class="sig-paren">(</span><em class="sig-param">start_idx=0</em>, <em class="sig-param">stop_idx=49</em>, <em class="sig-param">step=1</em><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.ScaleABC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract base class for scales.</p>
+<dl class="method">
+<dt id="muse.scales.scales.ScaleABC.step">
+<em class="property">abstract </em><code class="sig-name descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#muse.scales.scales.ScaleABC.step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Muse</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Brandon Rowell.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/contents.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,17 @@
+README.md
+setup.py
+muse/__init__.py
+muse/patterns.py
+muse.egg-info/PKG-INFO
+muse.egg-info/SOURCES.txt
+muse.egg-info/dependency_links.txt
+muse.egg-info/requires.txt
+muse.egg-info/top_level.txt
+muse/durations/__init__.py
+muse/durations/beat_generator.py
+muse/durations/durations.py
+muse/scales/__init__.py
+muse/scales/notes.py
+muse/scales/scales.py
+muse/scales/temperaments.py
+muse/scales/tunings.py
